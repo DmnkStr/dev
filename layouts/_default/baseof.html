@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="{{ site.LanguageCode | default "en" }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
+    {{ $styles := resources.Get "css/global.css" | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}">
+  </head>
+  <body>
+    <main>
+      <div class="site-frame">
+        {{ block "main" . }}{{ end }}
+      </div>
+    </main>
+  </body>
+</html>

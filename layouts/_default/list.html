@@ -1,0 +1,85 @@
+{{ define "main" }}
+  {{ if .IsHome }}
+    <div class="page-stack">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Portfolio / CV</p>
+          <h1 class="hero-title">{{ site.Title }}</h1>
+          {{ with .Content }}
+            <div class="lead">
+              {{ . }}
+            </div>
+          {{ else }}
+            <p class="lead">A simple site that explains what I do, how I work, and the projects and experience behind it.</p>
+          {{ end }}
+        </div>
+
+        <div class="summary-grid">
+          <div class="summary-card">
+            <p class="summary-label">Purpose</p>
+            <p class="summary-value">Portfolio, CV, and selected work in one place.</p>
+          </div>
+          <div class="summary-card">
+            <p class="summary-label">Style</p>
+            <p class="summary-value">Minimal typography, monochrome color, and clear hierarchy.</p>
+          </div>
+        </div>
+      </section>
+
+      {{ with .Pages }}
+        <section class="section-block">
+          <div class="section-heading">
+            <p class="eyebrow">Sections</p>
+            <h2>Explore</h2>
+          </div>
+
+          <div class="section-grid">
+            {{ range . }}
+              <article class="content-card">
+                <h3><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h3>
+                {{ with .Summary }}
+                  <div class="content-copy">
+                    {{ . }}
+                  </div>
+                {{ else }}
+                  <p>Open this section for more detail.</p>
+                {{ end }}
+              </article>
+            {{ end }}
+          </div>
+        </section>
+      {{ end }}
+    </div>
+  {{ else }}
+    <div class="page-stack">
+      <header class="section-heading">
+        <p class="eyebrow">{{ .Section | default "Section" | humanize }}</p>
+        <h1>{{ .Title }}</h1>
+        {{ with .Content }}
+          <div class="content-copy">
+            {{ . }}
+          </div>
+        {{ end }}
+      </header>
+
+      {{ with .Pages }}
+        <section class="section-block">
+          <div class="list-stack">
+            {{ range . }}
+              <article class="list-item">
+                <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
+                {{ with .Summary }}
+                  <div class="content-copy">
+                    {{ . }}
+                  </div>
+                {{ else }}
+                  <p>Open this page for more detail.</p>
+                {{ end }}
+              </article>
+            {{ end }}
+          </div>
+        </section>
+      {{ end }}
+    </div>
+  {{ end }}
+{{ end }}

@@ -1,0 +1,14 @@
+{{ define "main" }}
+  <article class="article">
+    <header class="section-heading">
+      {{ with .Section }}
+        <p class="eyebrow">{{ . | humanize }}</p>
+      {{ end }}
+      <h1>{{ .Title }}</h1>
+    </header>
+
+    <div class="content-copy">
+      {{ .Content }}
+    </div>
+  </article>
+{{ end }}
