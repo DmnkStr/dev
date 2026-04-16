@@ -1,0 +1,53 @@
+{{- $title := .Get "title" -}}
+{{- $start := .Get "start" -}}
+{{- $end := .Get "end" -}}
+{{- $image := .Get "image" -}}
+{{- $imageAlt := .Get "imageAlt" | default $title -}}
+{{- $inner := .Inner | strings.TrimSpace -}}
+{{- $imageResource := "" -}}
+{{- $imageURL := "" -}}
+
+{{- with $image -}}
+  {{- $imageResource = $.Page.Resources.GetMatch . -}}
+  {{- with $imageResource -}}
+    {{- $imageURL = .RelPermalink -}}
+  {{- else -}}
+    {{- if or (hasPrefix $image "http://") (hasPrefix $image "https://") -}}
+      {{- $imageURL = $image -}}
+    {{- else -}}
+      {{- $imageURL = $image | relURL -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+<article class="entry{{ if or $start $end }} entry--dated{{ else }} entry--undated{{ end }}">
+  {{ if or $start $end }}
+    <p class="entry-dates">
+      {{- if and $start $end -}}
+        {{ $start }} - {{ $end }}
+      {{- else if $start -}}
+        {{ $start }}
+      {{- else -}}
+        {{ $end }}
+      {{- end -}}
+    </p>
+  {{ end }}
+
+  <div class="entry-content">
+    {{ with $title }}
+      <h3 class="entry-title">{{ . }}</h3>
+    {{ end }}
+
+    {{ with $inner }}
+      <div class="entry-description">
+        {{ . | $.Page.RenderString }}
+      </div>
+    {{ end }}
+
+    {{ with $imageURL }}
+      <figure class="entry-image">
+        <img src="{{ . }}" alt="{{ $imageAlt }}">
+      </figure>
+    {{ end }}
+  </div>
+</article>

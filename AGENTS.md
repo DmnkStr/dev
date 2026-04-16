@@ -10,7 +10,9 @@ The site should function as a simple portfolio and CV website that clearly expla
 - Keep the visual system minimal and text-led.
 - Restrict the palette to black, dark gray, light gray, and white.
 - Use `Outfit` as the default sans-serif font.
-- Favor strong typography, generous spacing, thin borders, and simple surfaces over decorative UI.
+- Keep typography plain and document-like.
+- Use whitespace for visual separation; avoid cards, panels, and boxed section treatments.
+- Prefer container `gap` for layout spacing over ad-hoc margins between repeated elements.
 - Avoid bright accent colors, complex gradients, and heavy animations unless the user explicitly asks for them.
 
 ## Key Files

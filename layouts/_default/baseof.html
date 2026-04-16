@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}">
   </head>
   <body>
-    <main>
-      <div class="site-frame">
-        {{ block "main" . }}{{ end }}
-      </div>
+    <header class="site-header">
+      <h1 class="site-title">Hi, I am {{ site.Title }}</h1>
+    </header>
+    <main class="site-main">
+      {{ block "main" . }}{{ end }}
     </main>
   </body>
 </html>

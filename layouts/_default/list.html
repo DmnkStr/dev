@@ -1,85 +1,92 @@
 {{ define "main" }}
-  {{ if .IsHome }}
-    <div class="page-stack">
-      <section class="hero">
-        <div class="hero-copy">
-          <p class="eyebrow">Portfolio / CV</p>
-          <h1 class="hero-title">{{ site.Title }}</h1>
-          {{ with .Content }}
-            <div class="lead">
-              {{ . }}
-            </div>
-          {{ else }}
-            <p class="lead">A simple site that explains what I do, how I work, and the projects and experience behind it.</p>
-          {{ end }}
-        </div>
+  <article class="home-article" id="about">
+    <h2>About me</h2>
+    <div class="about-layout">
+      <section class="about-media">
+        <img src="{{ .Params.profile_image | relURL }}" alt="{{ .Params.profile_alt | default "Profile picture placeholder for Dominik Strasser" }}">
+      </section>
+      <section class="about-copy">
+        {{ with .Params.introduction }}
+          <p>{{ . }}</p>
+        {{ end }}
+      </section>
+    </div>
+  </article>
 
-        <div class="summary-grid">
-          <div class="summary-card">
-            <p class="summary-label">Purpose</p>
-            <p class="summary-value">Portfolio, CV, and selected work in one place.</p>
+  <article class="home-article" id="projects">
+    <h2>Projects</h2>
+    <div class="projects-grid">
+      {{ range .Params.projects }}
+        <section class="project-tile">
+          <img class="project-image" src="{{ .image | relURL }}" alt="{{ .alt | default (printf "Thumbnail placeholder for %s" .title) }}">
+          <div class="project-meta">
+            <h3>{{ .title }}</h3>
+            <p>{{ .year }}</p>
           </div>
-          <div class="summary-card">
-            <p class="summary-label">Style</p>
-            <p class="summary-value">Minimal typography, monochrome color, and clear hierarchy.</p>
-          </div>
+        </section>
+      {{ end }}
+    </div>
+
+    <div class="projects-notes">
+      <section class="project-note">
+        <h3>Design philosophy</h3>
+        <p>{{ .Params.design_philosophy }}</p>
+      </section>
+      <section class="project-note">
+        <h3>Reach out</h3>
+        <ul class="contact-list">
+          <li><a href="{{ .Params.email }}">{{ .Params.email_label | default "Email" }}</a></li>
+          <li><a href="{{ .Params.linkedin }}">LinkedIn</a></li>
+          <li><a href="{{ .Params.instagram }}">Instagram</a></li>
+        </ul>
+      </section>
+    </div>
+  </article>
+
+  <article class="home-article" id="resume">
+    <h2>Resume</h2>
+    <div class="resume-columns">
+      <section class="resume-column">
+        <h3>Experience</h3>
+        <div class="resume-list">
+          {{ range .Params.experience }}
+            <section class="resume-entry">
+              <div class="resume-entry-meta">
+                <p class="resume-period">{{ .period }}</p>
+                <p class="resume-location">{{ .location }}</p>
+              </div>
+              <div class="resume-entry-copy">
+                <h4>{{ .title }}</h4>
+                <p>{{ .organization }}</p>
+                {{ with .summary }}
+                  <p>{{ . }}</p>
+                {{ end }}
+              </div>
+            </section>
+          {{ end }}
         </div>
       </section>
 
-      {{ with .Pages }}
-        <section class="section-block">
-          <div class="section-heading">
-            <p class="eyebrow">Sections</p>
-            <h2>Explore</h2>
-          </div>
-
-          <div class="section-grid">
-            {{ range . }}
-              <article class="content-card">
-                <h3><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h3>
-                {{ with .Summary }}
-                  <div class="content-copy">
-                    {{ . }}
-                  </div>
-                {{ else }}
-                  <p>Open this section for more detail.</p>
+      <section class="resume-column">
+        <h3>Education</h3>
+        <div class="resume-list">
+          {{ range .Params.education }}
+            <section class="resume-entry">
+              <div class="resume-entry-meta">
+                <p class="resume-period">{{ .period }}</p>
+                <p class="resume-location">{{ .location }}</p>
+              </div>
+              <div class="resume-entry-copy">
+                <h4>{{ .title }}</h4>
+                <p>{{ .organization }}</p>
+                {{ with .summary }}
+                  <p>{{ . }}</p>
                 {{ end }}
-              </article>
-            {{ end }}
-          </div>
-        </section>
-      {{ end }}
+              </div>
+            </section>
+          {{ end }}
+        </div>
+      </section>
     </div>
-  {{ else }}
-    <div class="page-stack">
-      <header class="section-heading">
-        <p class="eyebrow">{{ .Section | default "Section" | humanize }}</p>
-        <h1>{{ .Title }}</h1>
-        {{ with .Content }}
-          <div class="content-copy">
-            {{ . }}
-          </div>
-        {{ end }}
-      </header>
-
-      {{ with .Pages }}
-        <section class="section-block">
-          <div class="list-stack">
-            {{ range . }}
-              <article class="list-item">
-                <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
-                {{ with .Summary }}
-                  <div class="content-copy">
-                    {{ . }}
-                  </div>
-                {{ else }}
-                  <p>Open this page for more detail.</p>
-                {{ end }}
-              </article>
-            {{ end }}
-          </div>
-        </section>
-      {{ end }}
-    </div>
-  {{ end }}
+  </article>
 {{ end }}
