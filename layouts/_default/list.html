@@ -11,35 +11,38 @@
         {{ end }}
       </section>
     </div>
+    <section class="about-contact">
+      <h3>Reach out</h3>
+      <ul class="contact-list">
+        <li><a href="{{ .Params.email }}">{{ .Params.email_label | default "Email" }}</a></li>
+        <li><a href="{{ .Params.linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="{{ .Params.instagram }}" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+      </ul>
+    </section>
   </article>
 
   <article class="home-article" id="projects">
     <h2>Projects</h2>
     <div class="projects-grid">
       {{ range .Params.projects }}
-        <section class="project-tile">
-          <img class="project-image" src="{{ .image | relURL }}" alt="{{ .alt | default (printf "Thumbnail placeholder for %s" .title) }}">
-          <div class="project-meta">
-            <h3>{{ .title }}</h3>
-            <p>{{ .year }}</p>
-          </div>
-        </section>
+        {{ if .url }}
+          <a class="project-tile project-tile-link" href="{{ .url | relURL }}">
+            <img class="project-image" src="{{ .image | relURL }}" alt="{{ .alt | default (printf "Thumbnail placeholder for %s" .title) }}">
+            <div class="project-meta">
+              <h3>{{ .title }}</h3>
+              <p>{{ .year }}</p>
+            </div>
+          </a>
+        {{ else }}
+          <section class="project-tile">
+            <img class="project-image" src="{{ .image | relURL }}" alt="{{ .alt | default (printf "Thumbnail placeholder for %s" .title) }}">
+            <div class="project-meta">
+              <h3>{{ .title }}</h3>
+              <p>{{ .year }}</p>
+            </div>
+          </section>
+        {{ end }}
       {{ end }}
-    </div>
-
-    <div class="projects-notes">
-      <section class="project-note">
-        <h3>Design philosophy</h3>
-        <p>{{ .Params.design_philosophy }}</p>
-      </section>
-      <section class="project-note">
-        <h3>Reach out</h3>
-        <ul class="contact-list">
-          <li><a href="{{ .Params.email }}">{{ .Params.email_label | default "Email" }}</a></li>
-          <li><a href="{{ .Params.linkedin }}">LinkedIn</a></li>
-          <li><a href="{{ .Params.instagram }}">Instagram</a></li>
-        </ul>
-      </section>
     </div>
   </article>
 
@@ -57,7 +60,14 @@
               </div>
               <div class="resume-entry-copy">
                 <h4>{{ .title }}</h4>
-                <p>{{ .organization }}</p>
+                {{ $organization := .organization }}
+                <p>
+                  {{ with .organization_url }}
+                    <a href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ $organization }}</a>
+                  {{ else }}
+                    {{ $organization }}
+                  {{ end }}
+                </p>
                 {{ with .summary }}
                   <p>{{ . }}</p>
                 {{ end }}
@@ -78,7 +88,14 @@
               </div>
               <div class="resume-entry-copy">
                 <h4>{{ .title }}</h4>
-                <p>{{ .organization }}</p>
+                {{ $organization := .organization }}
+                <p>
+                  {{ with .organization_url }}
+                    <a href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ $organization }}</a>
+                  {{ else }}
+                    {{ $organization }}
+                  {{ end }}
+                </p>
                 {{ with .summary }}
                   <p>{{ . }}</p>
                 {{ end }}

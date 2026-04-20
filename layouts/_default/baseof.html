@@ -8,11 +8,16 @@
     <link rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}">
   </head>
   <body>
-    <header class="site-header">
-      <h1 class="site-title">Hi, I am {{ site.Title }}</h1>
-    </header>
+    {{ block "header" . }}
+      <header class="site-header">
+        <h1 class="site-title">Hi, I'm {{ site.Title }}</h1>
+      </header>
+    {{ end }}
     <main class="site-main">
       {{ block "main" . }}{{ end }}
     </main>
+    {{ with .Params.instagram_embeds }}
+      <script async src="https://www.instagram.com/embed.js"></script>
+    {{ end }}
   </body>
 </html>

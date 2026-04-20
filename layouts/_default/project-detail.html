@@ -1,0 +1,111 @@
+{{ define "header" }}
+  <header class="site-header page-header">
+    <a class="page-back-link" href="{{ "/" | relURL }}">Back</a>
+    <h1 class="site-title">{{ .Title }}</h1>
+  </header>
+{{ end }}
+
+{{ define "main" }}
+  <article class="home-article project-detail">
+    <section class="project-detail-section project-detail-media-section">
+      <figure class="project-detail-media">
+        <img src="{{ .Params.feature_image | relURL }}" alt="{{ .Params.feature_alt | default .Title }}">
+      </figure>
+    </section>
+
+    <section class="project-detail-section project-detail-copy">
+      <div class="project-detail-copy-body">
+        {{ with .Params.content_heading }}
+          <h2>{{ . }}</h2>
+        {{ end }}
+
+        {{ .Content }}
+      </div>
+    </section>
+
+    {{ with .Params.detail_images }}
+      <section class="project-detail-section project-detail-image-section">
+        <div class="project-detail-image-list">
+          {{ range . }}
+            <figure
+              class="project-detail-inline-image"
+              style="aspect-ratio: {{ .aspect_width | default 2 }} / {{ .aspect_height | default 1 }};">
+              <img src="{{ .src | relURL }}" alt="{{ .alt | default $.Title }}">
+            </figure>
+          {{ end }}
+        </div>
+      </section>
+    {{ end }}
+
+    {{ with .Params.video_embeds }}
+      <section class="project-detail-section project-detail-videos-section">
+        <div class="project-detail-video-list">
+          {{ range . }}
+            <div
+              class="project-detail-video"
+              style="aspect-ratio: {{ .width | default 16 }} / {{ .height | default 9 }};">
+              <iframe
+                src="{{ .src | safeURL }}"
+                title="{{ .title | default "Embedded video" }}"
+                frameborder="0"
+                allow="{{ .allow | default "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" }}"
+                referrerpolicy="{{ .referrerpolicy | default "strict-origin-when-cross-origin" }}"
+                allowfullscreen>
+              </iframe>
+            </div>
+          {{ end }}
+        </div>
+      </section>
+    {{ end }}
+
+    {{ with .Params.embeds }}
+      <section class="project-detail-section project-detail-embeds-section">
+        <div class="project-detail-embeds">
+          {{ range . }}
+            <div class="project-detail-embed">
+              <iframe
+                src="{{ .src | safeURL }}"
+                width="100%"
+                height="{{ .height | default 860 }}"
+                frameborder="0"
+                allowfullscreen
+                title="{{ .title | default "Embedded LinkedIn post" }}">
+              </iframe>
+            </div>
+          {{ end }}
+        </div>
+      </section>
+    {{ end }}
+
+    {{ with .Params.instagram_embeds }}
+      <section class="project-detail-section project-detail-embeds-section">
+        <div class="project-detail-embeds">
+          {{ range . }}
+            <div class="project-detail-embed project-detail-instagram-embed">
+              <blockquote
+                class="instagram-media"
+                data-instgrm-captioned
+                data-instgrm-permalink="{{ .permalink | safeURL }}"
+                data-instgrm-version="{{ .version | default "14" }}">
+                <a href="{{ .permalink | safeURL }}" target="_blank" rel="noopener noreferrer">
+                  {{ .title | default "View this post on Instagram" }}
+                </a>
+              </blockquote>
+            </div>
+          {{ end }}
+        </div>
+      </section>
+    {{ end }}
+
+    {{ with .Params.sources }}
+      <section class="project-detail-section project-detail-sources">
+        <h2>Sources</h2>
+        <ul class="project-detail-sources-list">
+          {{ range . }}
+            <li><a href="{{ .url }}" target="_blank" rel="noopener noreferrer">{{ .label }}</a></li>
+          {{ end }}
+        </ul>
+      </section>
+    {{ end }}
+  </article>
+{{ end }}
